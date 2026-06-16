@@ -10,7 +10,17 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+
+    if (
+      req.url.includes('/api/auth/login') ||
+      req.url.includes('/api/auth/register')
+    ) {
+      return next.handle(req);
+    }
 
     const token = localStorage.getItem('token');
 
